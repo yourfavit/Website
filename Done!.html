@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Good-Wolf</title>
+    <link rel="icon" href="https://bcassetcdn.com/public/blog/wp-content/uploads/2019/05/18095917/Pup.jpg" type="Good-Wolf Logo.png">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            text-align: center;
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+        }
+        .logo {
+            max-width: 200px;
+            margin-bottom: 30px;
+        }
+        .search-bar {
+            width: 80%;
+            padding: 15px;
+            border: 2px solid #ff7700;
+            border-radius: 25px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            outline: none;
+        }
+        .search-bar::placeholder {
+            color: #999999;
+        }
+        .search-btn, .voice-search-btn {
+            padding: 15px 30px;
+            background-color: #ff7700; /* Same color for both buttons */
+            color: #ffffff;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .search-btn:hover, .voice-search-btn:hover {
+            background-color: #ff8800; /* Hover color */
+        }
+        .search-btn:focus, .voice-search-btn:focus {
+            outline: none;
+        }
+        .voice-search-btn.clicked {
+            background-color: #000000; /* Color when voice search button is clicked */
+        }
+        .translation {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="https://bcassetcdn.com/public/blog/wp-content/uploads/2019/05/18095917/Pup.jpg" alt="Good-Wolf Logo" class="logo">
+        <form id="searchForm" action="https://www.google.com/search" method="GET" target="_blank">
+            <input type="text" id="searchInput" name="q" class="search-bar" placeholder="Search Good-Wolf">
+            <button type="submit" class="search-btn">Good-Wolf Search</button>
+            <button type="button" id="voiceSearchBtn" class="voice-search-btn">
+                Voice Search
+            </button>
+            <div class="translation">
+                Language:
+                <select name="lr">
+                    <option value="lang_en">English</option>
+                    <option value="lang_ar">Arabic</option>
+                    <option value="lang_zh-CN">Chinese (Simplified)</option>
+                    <option value="lang_zh-TW">Chinese (Traditional)</option>
+                    <option value="lang_fr">French</option>
+                    <option value="lang_de">German</option>
+                    <option value="lang_hi">Hindi</option>
+                    <option value="lang_it">Italian</option>
+                    <option value="lang_ja">Japanese</option>
+                    <option value="lang_ko">Korean</option>
+                    <option value="lang_pt-BR">Portuguese (Brazil)</option>
+                    <option value="lang_ru">Russian</option>
+                    <option value="lang_es">Spanish</option>
+                    <option value="lang_tl">Tagalog</option>
+                    <option value="lang_th">Thai</option>
+                    <option value="lang_tr">Turkish</option>
+                    <option value="lang_vi">Vietnamese</option>
+                    <!-- Add more language options here -->
+                </select>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const voiceSearchBtn = document.getElementById('voiceSearchBtn');
+        const searchInput = document.getElementById('searchInput');
+        const searchForm = document.getElementById('searchForm');
+        let recognition;
+
+        voiceSearchBtn.addEventListener('click', function() {
+            if (!('webkitSpeechRecognition' in window)) {
+                alert("Speech recognition is not supported in this browser. Please use a supported browser.");
+                return;
+            }
+
+            recognition = new webkitSpeechRecognition();
+            recognition.lang = 'en-US';
+
+            recognition.onresult = function(event) {
+                const result = event.results[0][0].transcript;
+                searchInput.value = result;
+                searchForm.submit();
+                voiceSearchBtn.classList.add('clicked');
+            };
+
+            recognition.start();
+        });
+    </script>
+</body>
+</html>
